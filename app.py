@@ -1,3 +1,7 @@
+import os
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
 import streamlit as st
 import tensorflow as tf
 import numpy as np
@@ -60,14 +64,20 @@ if uploaded_file is not None:
         st.write("Tumor Type:", classes[class_index])
         st.write("Confidence:", round(confidence*100,2),"%")
 
-        heatmap = make_gradcam_heatmap(img_input, model)
+        # Added spinner to prevent Render timeout
+        with st.spinner("Generating Explainable AI visualization..."):
 
-        heatmap = cv2.resize(heatmap,(img.shape[1],img.shape[0]))
-        heatmap = np.uint8(255 * heatmap)
+            heatmap = make_gradcam_heatmap(img_input, model)
 
-        heatmap = cv2.applyColorMap(heatmap, cv2.COLORMAP_JET)
+            heatmap = cv2.resize(heatmap,(img.shape[1],img.shape[0]))
+            heatmap = np.uint8(255 * heatmap)
 
-        superimposed_img = heatmap * 0.4 + img
+            heatmap = cv2.applyColorMap(heatmap, cv2.COLORMAP_JET)
+
+            superimposed_img = heatmap * 0.4 + img
 
         st.subheader("Explainable AI (Grad-CAM)")
         st.image(superimposed_img.astype("uint8"))
+
+        # Clear memory (prevents 502/503 crash on Render free tier)
+        tf.keras.backend.clear_session()
