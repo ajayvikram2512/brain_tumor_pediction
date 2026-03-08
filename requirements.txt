@@ -1,5 +1,8 @@
-streamlit
-tensorflow==2.13.0
-numpy
+streamlit==1.32.2
+tensorflow==2.15.0
+numpy==1.26.4
 opencv-python-headless
 pillow
+scikit-learn
+matplotlib
+h5py
