@@ -1,8 +1,5 @@
-pip>=26.0
+streamlit
 tensorflow==2.15.0
-numpy==1.26.4
+numpy
 opencv-python-headless
 pillow
-streamlit
-scikit-learn
-matplotlib
