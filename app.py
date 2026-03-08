@@ -6,7 +6,10 @@ from PIL import Image
 from tensorflow.keras.applications.efficientnet import preprocess_input
 from gradcam import make_gradcam_heatmap
 
-model = tf.keras.models.load_model("model/brain_tumor_model.keras")
+model = tf.keras.models.load_model(
+    "model/brain_tumor_model.keras",
+    compile=False
+)
 
 classes = ["glioma","meningioma","notumor","pituitary"]
 
