@@ -66,6 +66,9 @@ if uploaded_file is not None:
 
         # Added spinner to prevent Render timeout
         with st.spinner("Generating Explainable AI visualization..."):
+            gradcam_img = cv2.resize(img,(128,128))
+            gradcam_img = preprocess_input(gradcam_img)
+            gradcam_img = np.expand_dims(gradcam_img,axis=0)
 
             heatmap = make_gradcam_heatmap(img_input, model)
 
